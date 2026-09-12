@@ -21,7 +21,21 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(simdjson)
 
-add_executable(HyperLog src/main.cc)
+add_executable(
+	HyperLog 
+	src/main.cc 
+	
+	# core
+	src/core/log_entry.h
+	src/core/log_parser.h
+	src/core/log_parser.cc
+	src/core/log_stream.h
+	src/core/log_stream.cc
+
+	# ui
+	src/ui/app.h 
+	src/ui/app.cc
+)
 
 target_link_libraries(HyperLog
   PRIVATE ftxui::screen
