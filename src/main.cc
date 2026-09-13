@@ -1,10 +1,11 @@
+#include "ui/app.h"
 #include <iostream>
-#include <ftxui/dom/elements.hpp>
-#include <ftxui/screen/screen.hpp>
-#include <simdjson.h>
+#include <filesystem>
 
 int main(int argc, const char* argv[]) {
-    
+   
+	HyperLogApp app("test.json");
+	app.run();
 
     return (0);
 }
