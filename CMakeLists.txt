@@ -46,3 +46,7 @@ target_link_libraries(HyperLog
   PRIVATE ftxui::component
   PRIVATE simdjson
 )
+
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
