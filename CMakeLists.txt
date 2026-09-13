@@ -31,11 +31,14 @@ add_executable(
 	src/core/log_parser.cc
 	src/core/log_stream.h
 	src/core/log_stream.cc
+	src/core/generator.h
 
 	# ui
 	src/ui/app.h 
 	src/ui/app.cc
 )
+
+ file(COPY test.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(HyperLog
   PRIVATE ftxui::screen
