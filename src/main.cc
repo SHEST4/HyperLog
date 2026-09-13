@@ -4,7 +4,13 @@
 
 int main(int argc, const char* argv[]) {
    
-	HyperLogApp app("test.json");
+	std::string file_path = "test.json";
+
+	if (argc > 1) {
+		file_path = argv[1];
+	}
+
+	HyperLogApp app(file_path);
 	app.run();
 
     return (0);
