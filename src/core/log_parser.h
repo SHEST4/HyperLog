@@ -12,5 +12,4 @@ private:
 
 public:
 	std::optional<LogEntry> parse(const std::string_view& log_line);
-
 };
