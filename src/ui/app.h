@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <atomic>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/event.hpp>
@@ -19,6 +20,7 @@ private:
 	ftxui::Component search_input_;
 	bool use_regex_ = false;
 	ftxui::Component regex_checkbox_;
+	std::atomic<bool> is_loading_ = false;
 
 	void load_more(int count);
 	void reset_search();

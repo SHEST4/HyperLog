@@ -8,10 +8,14 @@ using namespace ftxui;
 void HyperLogApp::run() {
 	search_input_ = Input(&search_query_, "Search (press Enter)...");
 
-	load_more(50);
+	load_more(100);
 	auto screen = ScreenInteractive::Fullscreen();
 
 	auto renderer = Renderer([&] {
+		if (is_loading_) {
+			return center(text("Searching, please wait..."));
+		}
+
 		std::vector<Element> ui_elements;
 		int visible_lines = std::max(1, ftxui::Terminal::Size().dimy - 6);
 
@@ -93,8 +97,18 @@ void HyperLogApp::run() {
 	});
 
 	auto component = CatchEvent(main_renderer, [&](Event event) {
+		if (is_loading_) {
+			return true;
+		}
 		if (event == Event::Return) {
-			reset_search();
+			is_loading_ = true; 
+			logs_.clear();
+			std::thread([&]() {
+				reset_search();     
+				is_loading_ = false;
+				screen.PostEvent(Event::Custom);
+				}).detach();
+
 			return true;
 		}
 		if (event == Event::Home) {
