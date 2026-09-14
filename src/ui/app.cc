@@ -206,5 +206,5 @@ void HyperLogApp::reset_search() {
 	logs_.clear();
 	generator_ = stream_.stream_logs(file_path_);
 	scroll_pos_ = 0;
-	load_more(50);
+	load_more(100);
 }
