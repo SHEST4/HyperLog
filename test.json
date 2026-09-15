@@ -1,0 +1,6 @@
+{"timestamp": "2026-09-12 10:00:01", "level": "INFO", "message": "Server started"}
+{"timestamp": "2026-09-12 10:00:05", "level": "ERROR", "message": "Database connection failed", "code": 500}
+{"time":"2026-09-13T16:55:01Z","level":"INFO","service":"auth-api","message":"User logged in successfully","user_id":4829,"ip":"192.168.1.45"}
+{"time":"2026-09-13T16:55:12Z","level":"WARN","service":"payment-gateway","message":"Database connection timeout, retrying...","attempt":1,"duration_ms":500}
+{"time":"2026-09-13T16:55:15Z","level":"ERROR","service":"payment-gateway","message":"Failed to process payment","user_id":4829,"error":"Gateway Timeout","code":504}
+{"time":"2026-09-13T16:56:00Z","level":"INFO","service":"analytics","message":"Daily report generated","items_processed":15240,"execution_time_sec":12.4}
