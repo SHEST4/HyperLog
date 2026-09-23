@@ -176,11 +176,11 @@ void HyperLogApp::run() {
 			return true;
 		}
 
-		if (event == Event::Home) {
+		if (event == Event::PageUp) {
 			scroll_pos_ = 0;
 			return true;
 		}
-		if (event == Event::End) {
+		if (event == Event::PageDown) {
 			scroll_pos_ = std::max(0, static_cast<int>(logs_.size()) - 1);
 			return true;
 		}
