@@ -26,7 +26,7 @@ HyperLog uses modern C++20 coroutines for lazy file reading and vector instructi
 | Key | Action |
 | :--- | :--- |
 | `↑` / `↓` | Scroll through logs |
-| `Home` / `End` | Jump to the beginning or end of the loaded buffer |
+| `PgUp` / `PgDown` | Jump to the beginning or end of the loaded buffer |
 | `Enter` | Apply the current search query or Regex filter |
 | `F5` | **Live Mode:** Fetch the latest log entries dynamically |
 | `F12` | **Clear Memory:** Clear the screen and force memory deallocation |
