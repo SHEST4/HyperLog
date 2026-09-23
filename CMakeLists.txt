@@ -1,5 +1,10 @@
-﻿cmake_minimum_required(VERSION 3.14)
-project(HyperLog VERSION 1.0.1 LANGUAGES CXX)
+﻿cmake_minimum_required(VERSION 3.15)
+cmake_policy(SET CMP0091 NEW)
+project(HyperLog VERSION 1.0.2 LANGUAGES CXX)
+
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -10,14 +15,14 @@ include(FetchContent)
 FetchContent_Declare(
   ftxui
   GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI
-  GIT_TAG main 
+  GIT_TAG v7.0.3
 )
 FetchContent_MakeAvailable(ftxui)
 
 FetchContent_Declare(
   simdjson
   GIT_REPOSITORY https://github.com/simdjson/simdjson
-  GIT_TAG master 
+  GIT_TAG v4.6.11
 )
 FetchContent_MakeAvailable(simdjson)
 
@@ -47,6 +52,3 @@ target_link_libraries(HyperLog
   PRIVATE simdjson
 )
 
-if(MSVC)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-endif()

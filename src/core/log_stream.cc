@@ -16,7 +16,7 @@ Generator<LogEntry> LogStream::stream_logs(std::string file_path) {
 			}
 		} else {
 			file.clear(); // Clear EOF flag
-			co_yield LogEntry("SYSTEM", "EOF", "", "");
+			co_yield LogEntry("SYSTEM", "__HYPERLOG_EOF__", "", "");
 		}
 	}
 }
