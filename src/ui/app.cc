@@ -120,12 +120,16 @@ void HyperLogApp::run() {
 				scroll_pos_ = 0;
 			}
 
-			search_thread_ = std::jthread([&](std::stop_token stoken) {
+			search_thread_ = std::jthread([&, is_regex = use_regex_](std::stop_token stoken) {
 				std::regex re;
-				bool use_regex_local = false;
-				if (use_regex_ && !applied_query_.empty()) {
+				bool regex_valid = false;
+
+				std::string query_lower = to_lower_case(applied_query_);
+				
+				if (is_regex && !applied_query_.empty()) {
 					try {
 						re = std::regex(applied_query_, std::regex_constants::icase);
+						regex_valid = true;
 					} catch (...) {}
 				}
 
@@ -139,13 +143,13 @@ void HyperLogApp::run() {
 
 					if (!generator_.next()) break;
 					auto log = generator_.value();
-					if (log.level == "EOF") break;
+					if (log.level == "__HYPERLOG_EOF__") break;
 
 					bool matched = false;
 					if (applied_query_.empty()) {
 						matched = true;
 					}
-					else if (use_regex_local) {
+					else if (regex_valid) {
 						matched = std::regex_search(log.message, re) || std::regex_search(log.level, re);
 					}
 					else {
@@ -221,6 +225,7 @@ void HyperLogApp::run() {
 			screen.ExitLoopClosure()();
 			return true;
 		}
+
 		return false;
 	});
 
@@ -230,6 +235,8 @@ void HyperLogApp::run() {
 void HyperLogApp::load_more(int count) {
 	std::regex re;
 	bool use_regex_local = false;
+
+	std::string query_lower = to_lower_case(applied_query_);
 
 	if (use_regex_ && !applied_query_.empty()) {
 		try {
@@ -248,7 +255,7 @@ void HyperLogApp::load_more(int count) {
 		}
 
 		auto log = generator_.value();
-		if (log.level == "EOF") {
+		if (log.level == "__HYPERLOG_EOF__") {
 			break;
 		}
 
@@ -260,8 +267,11 @@ void HyperLogApp::load_more(int count) {
 			matched = std::regex_search(log.message, re) || std::regex_search(log.level, re);
 		}
 		else {
-			matched = (log.message.find(applied_query_) != std::string::npos ||
-				log.level.find(applied_query_) != std::string::npos);
+			std::string level_lower = to_lower_case(log.level);
+			std::string msg_lower = to_lower_case(log.message);
+
+			matched = (msg_lower.find(query_lower) != std::string::npos ||
+				level_lower.find(query_lower) != std::string::npos);
 		}
 
 		if (matched) {
@@ -283,4 +293,11 @@ void HyperLogApp::reset_search() {
 	generator_ = stream_.stream_logs(file_path_);
 	scroll_pos_ = 0;
 	load_more(100);
+}
+
+std::string HyperLogApp::to_lower_case(const std::string& str) {
+	std::string result = str;
+	std::transform(result.begin(), result.end(), result.begin(),
+		[](unsigned char c) { return std::tolower(c); });
+	return result;
 }

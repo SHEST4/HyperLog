@@ -29,6 +29,7 @@ private:
 
 	void load_more(int count);
 	void reset_search();
+	std::string to_lower_case(const std::string& str);
 
 public:
 	HyperLogApp(const std::string& file_path) 
