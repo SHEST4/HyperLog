@@ -4,6 +4,8 @@
 #include <vector>
 #include <regex>
 #include <atomic>
+#include <mutex>
+#include <thread>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/event.hpp>
@@ -21,6 +23,9 @@ private:
 	bool use_regex_ = false;
 	ftxui::Component regex_checkbox_;
 	std::atomic<bool> is_loading_ = false;
+	std::mutex logs_mutex_;
+	std::jthread search_thread_;
+	std::string applied_query_ = "";
 
 	void load_more(int count);
 	void reset_search();
